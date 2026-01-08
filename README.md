@@ -1,6 +1,6 @@
 # Python에서 JSON 데이터 파싱하기
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
+[![Promo](https://github.com/bright-kr/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
 
 이 가이드는 Python의 `json` 모듈로 JSON 데이터를 파싱하고 이를 Python 딕셔너리로 변환하는 방법 및 그 반대 변환을 다룹니다.
 
