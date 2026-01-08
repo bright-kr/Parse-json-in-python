@@ -1,24 +1,24 @@
-# Parsing JSON Data with Python
+# Python에서 JSON 데이터 파싱하기
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.com/) 
+[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
 
-This guide covers parsing JSON data with the `json` module in Python and transforming it into a Python dictionary and vice versa.
+이 가이드는 Python의 `json` 모듈로 JSON 데이터를 파싱하고 이를 Python 딕셔너리로 변환하는 방법 및 그 반대 변환을 다룹니다.
 
-- [An Introduction to JSON in Python](#an-introduction-to-json-in-python)
-- [Parsing JSON Data With Python](#parsing-json-data-with-python-1)
-- [Converting a JSON String to a Python Dictionary](#converting-a-json-string-to-a-python-dictionary)
-  - [Transforming a JSON API Response Into a Python Dictionary](#transforming-a-json-api-response-into-a-python-dictionary)
-  - [Loading a JSON File Into a Python Dictionary](#loading-a-json-file-into-a-python-dictionary)
-  - [From JSON Data to Custom Python Object](#from-json-data-to-custom-python-object)
-- [Converting Python Data to JSON](#python-data-to-json)
-- [Limitations of the `json` Standard Module](#limitations-of-the-json-standard-module)
-- [Conclusion](#conclusion)
+- [Python에서 JSON 소개](#an-introduction-to-json-in-python)
+- [Python으로 JSON 데이터 파싱하기](#parsing-json-data-with-python-1)
+- [JSON 문자열을 Python 딕셔너리로 변환하기](#converting-a-json-string-to-a-python-dictionary)
+  - [JSON API 응답을 Python 딕셔너리로 변환하기](#transforming-a-json-api-response-into-a-python-dictionary)
+  - [JSON 파일을 Python 딕셔너리로 로드하기](#loading-a-json-file-into-a-python-dictionary)
+  - [JSON 데이터에서 사용자 정의 Python 객체로](#from-json-data-to-custom-python-object)
+- [Python 데이터를 JSON으로 변환하기](#python-data-to-json)
+- [`json` 표준 모듈의 한계](#limitations-of-the-json-standard-module)
+- [결론](#conclusion)
 
-## An Introduction to JSON in Python
+## Python에서 JSON 소개
 
-JavaScript Object Notation, or JSON, is a lightweight data-interchange format commonly used for transmitting data between servers and web applications via APIs. JSON data consists of key-value pairs where each key is a string, and each value can be a string, number, boolean, null, array, or object.
+JavaScript Object Notation, 즉 JSON은 API를 통해 서버와 웹 애플리케이션 간에 데이터를 전송하는 데 일반적으로 사용되는 가벼운 데이터 교환 형식입니다. JSON 데이터는 키-값 쌍으로 구성되며, 각 키는 문자열이고 각 값은 문자열, 숫자, 불리언, null, 배열 또는 객체가 될 수 있습니다.
 
-Here is an example of JSON:
+다음은 JSON 예시입니다:
 
 ```json
 {
@@ -46,21 +46,21 @@ Here is an example of JSON:
 }
 ```
 
-Python natively supports [JSON](https://docs.python.org/3/library/json.html) through the `json` module, which is part of the [Python Standard Library](https://docs.python.org/3/library/index.html). This means that you do not need to install any additional library to work with JSON in Python. You can import `json` as follows:
+Python은 [Python Standard Library](https://docs.python.org/3/library/index.html)의 일부인 `json` 모듈을 통해 [JSON](https://docs.python.org/3/library/json.html)을 기본적으로 지원합니다. 즉, Python에서 JSON을 다루기 위해 추가 라이브러리를 설치할 필요가 없습니다. `json`은 다음과 같이 import할 수 있습니다:
 
 ```python
 import json
 ```
 
-The built-in Python `json` library exposes a complete API to deal with JSON. In particular, it has two key functions: [`loads`](https://docs.python.org/3/library/json.html#json.loads) and [`load`](https://docs.python.org/3/library/json.html#json.load). The `loads` function is for parsing JSON data from a string, while the `load` function is for parsing JSON data into bytes.
+내장 Python `json` 라이브러리는 JSON을 처리하기 위한 완전한 API를 제공합니다. 특히 두 가지 핵심 함수인 [`loads`](https://docs.python.org/3/library/json.html#json.loads)와 [`load`](https://docs.python.org/3/library/json.html#json.load)를 제공합니다. `loads` 함수는 문자열에서 JSON 데이터를 파싱하기 위한 것이고, `load` 함수는 바이트로 JSON 데이터를 파싱하기 위한 것입니다.
 
-Through those two methods, `json` allows you to convert JSON data to equivalent Python objects like [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) and [lists](https://docs.python.org/3/tutorial/datastructures.html#more-on-lists), and vice versa. Plus, the `json` module allows you to create custom encoders and decoders to handle specific data types.
+이 두 메서드를 통해 `json`은 JSON 데이터를 [dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) 및 [lists](https://docs.python.org/3/tutorial/datastructures.html#more-on-lists) 같은 동등한 Python 객체로 변환할 수 있으며, 그 반대 변환도 가능합니다. 또한 `json` 모듈은 특정 데이터 타입을 처리하기 위한 사용자 정의 인코더 및 디코더를 만들 수 있게 해줍니다.
 
-## Parsing JSON Data With Python
+## Python으로 JSON 데이터 파싱하기
 
-## Converting a JSON String to a Python Dictionary
+## JSON 문자열을 Python 딕셔너리로 변환하기
 
-Assume that you have some JSON data stored in a string and you want to convert it to a Python dictionary. This is what the JSON data looks like:
+문자열에 저장된 JSON 데이터가 있고 이를 Python 딕셔너리로 변환하려고 한다고 가정하겠습니다. JSON 데이터는 다음과 같습니다:
 
 ```json
 {
@@ -71,30 +71,30 @@ Assume that you have some JSON data stored in a string and you want to convert i
 }
 ```
 
-And this is its string representation in Python:
+그리고 이것의 Python 문자열 표현은 다음과 같습니다:
 
 ```python
 smartphone_json = '{"name": "iPear 23", "colors": ["black", "white", "red", "blue"], "price": 999.99, "inStock": true}'
 ```
 
 > **Note**\
-> Consider using the Python triple quotes convention to store long multi-line JSON strings.
+> 길고 여러 줄로 구성된 JSON 문자열을 저장할 때는 Python의 삼중 따옴표(triple quotes) 관례를 사용하는 것을 고려하시기 바랍니다.
 
-You can verify that `smartphone` contains a valid Python string with the line below:
+아래 코드로 `smartphone`이 유효한 Python 문자열을 포함하는지 확인할 수 있습니다:
 
 ```python
 print(type(smartphone))
 ```
 
-This will print:
+그러면 다음이 출력됩니다:
 
 ```
 <class 'str'>
 ```
 
-[`str`](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str) stands for “string” and means that the smartphone variable has the text sequence type.
+[`str`](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)은 “string”을 의미하며, smartphone 변수가 텍스트 시퀀스 타입임을 뜻합니다.
 
-Parse the JSON string contained in smartphone into a Python dictionary with the json.loads() method as follows:
+다음과 같이 json.loads() 메서드로 smartphone에 포함된 JSON 문자열을 Python 딕셔너리로 파싱합니다:
 
 ```python
 import json
@@ -108,17 +108,17 @@ smartphone_dict = json.loads(smartphone_json)
 print(type(smartphone_dict)) # dict
 ```
 
-If you run this snippet, you would get:
+이 스니펫을 실행하면 다음을 얻습니다:
 
 ```
 <class 'dict'>
 ```
 
-Now `smartphone_dict` contains a valid Python dictionary.
+이제 `smartphone_dict`는 유효한 Python 딕셔너리를 포함합니다.
 
-Next, pass a valid JSON string to `json.loads()` to convert a JSON string to a Python dictionary.
+다음으로, 유효한 JSON 문자열을 `json.loads()`에 전달하여 JSON 문자열을 Python 딕셔너리로 변환합니다.
 
-You can now access the resulting dictionary fields as usual:
+이제 결과 딕셔너리의 필드에 평소와 같이 접근할 수 있습니다:
 
 ```python
 product = smartphone_dict['name'] # smartphone
@@ -126,7 +126,7 @@ priced = smartphone['price'] # 999.99
 colors = smartphone['colors'] # ['black', 'white', 'red', 'blue']
 ```
 
-The `json.loads()` function will not always return a dictionary. Specifically, the returning data type depends on the input string. For example, if the JSON string contains a flat value, it will be converted to the equivalent Python primitive value:
+`json.loads()` 함수가 항상 딕셔너리를 반환하는 것은 아닙니다. 구체적으로 반환되는 데이터 타입은 입력 문자열에 따라 달라집니다. 예를 들어 JSON 문자열이 단일(평평한) 값을 포함하는 경우, 동등한 Python 기본(primitive) 값으로 변환됩니다:
 
 ```python
 import json
@@ -137,7 +137,7 @@ float_var = json.loads(json_string)
 print(type(float_var)) # <class 'float'>
 ```
 
-Similarly, a JSON string containing an array list will become a Python list:
+마찬가지로 배열 리스트를 포함하는 JSON 문자열은 Python 리스트가 됩니다:
 
 ```python
 import json
@@ -147,7 +147,7 @@ list_var = json.loads(json_string)
 print(json_string) # <class 'list'>
 ```
 
-The [conversion table](https://docs.python.org/3/library/json.html#json-to-py-table) below explains how JSON values are converted to Python data by `json`:
+아래 [conversion table](https://docs.python.org/3/library/json.html#json-to-py-table)은 `json`이 JSON 값을 Python 데이터로 변환하는 방식을 설명합니다:
 
 | **JSON Value** | **Python Data** |
 | - | - | - |
@@ -160,15 +160,15 @@ The [conversion table](https://docs.python.org/3/library/json.html#json-to-py-ta
 | `array` | `list` |
 | `object` | `dict` |
 
-### Transforming a JSON API Response Into a Python Dictionary
+### JSON API 응답을 Python 딕셔너리로 변환하기
 
-Consider that you need to make an API and convert its JSON response to a Python dictionary. In the example below, we will call the following API endpoint from the [{JSON} Placeholder](https://jsonplaceholder.typicode.com/) project to get some fake JSON data:
+API를 호출하고 그 JSON 응답을 Python 딕셔너리로 변환해야 한다고 가정하겠습니다. 아래 예시에서는 가짜 JSON 데이터를 얻기 위해 [{JSON} Placeholder](https://jsonplaceholder.typicode.com/) 프로젝트의 다음 API endpoint를 호출하겠습니다:
 
 ```
 https://jsonplaceholder.typicode.com/todos/1
 ```
 
-That RESTFul API returns the JSON response below:
+이 RESTFul API는 아래 JSON response를 반환합니다:
 
 ```json
 {
@@ -179,7 +179,7 @@ That RESTFul API returns the JSON response below:
 }
 ```
 
-You can call that API with the [`urllib`](https://docs.python.org/3/library/urllib.html) module from the Standard Library and convert the resulting JSON to a Python dictionary as follows:
+Standard Library의 [`urllib`](https://docs.python.org/3/library/urllib.html) 모듈로 해당 API를 호출하고, 결과 JSON을 Python 딕셔너리로 변환할 수 있습니다:
 
 ```python
 import urllib.request
@@ -194,9 +194,9 @@ body_dict = json.loads(body_json)
 user_id = body_dict['userId'] # 1
 ```
 
-[`urllib.request.urlopen()`](https://docs.python.org/3/library/urllib.request.html#urllib.request.urlopen) peforms the API call and returns an [`HTTPResponse`](https://docs.python.org/3/library/http.client.html#http.client.HTTPResponse) object. Its [`read()`](https://docs.python.org/3/library/http.client.html#http.client.HTTPResponse.read) method is then used to get the response body body\_json, which contains the API response as a JSON string. Finally, that string can be parsed into a Python dictionary through `json.loads()` as explained earlier.
+[`urllib.request.urlopen()`](https://docs.python.org/3/library/urllib.request.html#urllib.request.urlopen)은 API 호출을 수행하고 [`HTTPResponse`](https://docs.python.org/3/library/http.client.html#http.client.HTTPResponse) 객체를 반환합니다. 그런 다음 [`read()`](https://docs.python.org/3/library/http.client.html#http.client.HTTPResponse.read) 메서드를 사용해 response body인 body\_json을 가져오며, 여기에는 API response가 JSON 문자열로 포함됩니다. 마지막으로 앞서 설명한 대로 `json.loads()`를 통해 해당 문자열을 Python 딕셔너리로 파싱할 수 있습니다.
 
-Similarly, you can achieve the same result with [`requests:`](https://requests.readthedocs.io/en/latest/).
+마찬가지로 [`requests:`](https://requests.readthedocs.io/en/latest/)로도 동일한 결과를 얻을 수 있습니다.
 
 ```python
 import requests
@@ -210,11 +210,11 @@ user_id = body_dict['userId'] # 1
 ```
 
 > **Note**\
-> The [`.json()`](https://requests.readthedocs.io/en/latest/user/quickstart/?highlight=json#json-response-content) method automatically transforms the response object containing JSON data into the respective Python data structure.
+> [`.json()`](https://requests.readthedocs.io/en/latest/user/quickstart/?highlight=json#json-response-content) 메서드는 JSON 데이터를 포함한 response object를 해당하는 Python 데이터 구조로 자동 변환합니다.
 
-### Loading a JSON File Into a Python Dictionary
+### JSON 파일을 Python 딕셔너리로 로드하기
 
-Suppose you have some JSON data stored in a `smartphone.json` file as below:
+아래와 같이 `smartphone.json` 파일에 저장된 JSON 데이터가 있다고 가정하겠습니다:
 
 ```json
 {
@@ -235,7 +235,7 @@ Suppose you have some JSON data stored in a `smartphone.json` file as below:
 }
 ```
 
-Your goal is to read the JSON file and load it into a Python dictionary. Achieve that with the snippet below:
+목표는 JSON 파일을 읽어서 Python 딕셔너리로 로드하는 것입니다. 아래 스니펫으로 이를 수행합니다:
 
 ```python
 import json
@@ -247,11 +247,11 @@ print(type(smartphone_dict)) # <class 'dict'>
 features = smartphone_dict['features'] # ['5G', 'HD display', 'Dual camera']
 ```
 
-The built-in [`open()`](https://docs.python.org/3/library/functions.html#open) library allows you to load a file and get its corresponding [file object](https://docs.python.org/3/glossary.html#term-file-object). The `json.read()` method then deserializes the [text file](https://docs.python.org/3/glossary.html#term-text-file) or [binary file](https://docs.python.org/3/glossary.html#term-binary-file) containing a JSON document to the equivalent Python object. In this case, `smartphone.json` becomes a Python dictionary.
+내장 [`open()`](https://docs.python.org/3/library/functions.html#open) 라이브러리는 파일을 로드하고 해당 [file object](https://docs.python.org/3/glossary.html#term-file-object)를 얻을 수 있게 해줍니다. 그런 다음 `json.read()` 메서드는 JSON 문서를 포함한 [text file](https://docs.python.org/3/glossary.html#term-text-file) 또는 [binary file](https://docs.python.org/3/glossary.html#term-binary-file)을 동등한 Python 객체로 역직렬화(deserialize)합니다. 이 경우 `smartphone.json`은 Python 딕셔너리가 됩니다.
 
-### From JSON Data to Custom Python Object
+### JSON 데이터에서 사용자 정의 Python 객체로
 
-Now, let's parse some JSON data into a custom Python class. This is what your custom `Smartphone` Python class looks like:
+이제 JSON 데이터를 사용자 정의 Python 클래스로 파싱해 보겠습니다. 사용자 정의 `Smartphone` Python 클래스는 다음과 같습니다:
 
 ```python
 class Smartphone:
@@ -262,7 +262,7 @@ class Smartphone:
         self.in_stock = in_stock
 ```
 
-Here, the goal is to convert the following JSON string to a `Smartphone` instance:
+여기서 목표는 다음 JSON 문자열을 `Smartphone` 인스턴스로 변환하는 것입니다:
 
 ```json
 {
@@ -273,9 +273,9 @@ Here, the goal is to convert the following JSON string to a `Smartphone` instanc
 }
 ```
 
-Create a custom decoder to accomplish this task. To do that, extend the [`JSONDecoder`](https://docs.python.org/3/library/json.html#json.JSONDecoder) class and set the `object_hook` parameter in the `__init__` method. Assign it with the name of the class method containing the custom parsing logic. In that parsing method, you can use the values contained in the standard dictionary returned by `json.read()` to instantiate a `Smartphone` object.
+이 작업을 수행하기 위해 사용자 정의 디코더를 생성합니다. 이를 위해 [`JSONDecoder`](https://docs.python.org/3/library/json.html#json.JSONDecoder) 클래스를 확장하고 `__init__` 메서드에서 `object_hook` 파라미터를 설정합니다. 사용자 정의 파싱 로직을 포함하는 클래스 메서드의 이름을 할당합니다. 해당 파싱 메서드에서는 `json.read()`가 반환하는 표준 딕셔너리에 들어 있는 값을 사용하여 `Smartphone` 객체를 인스턴스화할 수 있습니다.
 
-Define a custom `SmartphoneDecoder` as below:
+아래와 같이 사용자 정의 `SmartphoneDecoder`를 정의합니다:
 
 ```python
 import json
@@ -298,9 +298,9 @@ class SmartphoneDecoder(json.JSONDecoder):
         return new_smartphone
 ```
 
-Use the `get()` method to read the dictionary values within the custom `object_hook()` method. This will ensure that no `KeyError`s are raised if a key is missing from the dictionary. Instead, `None` values will be returned.
+사용자 정의 `object_hook()` 메서드 내에서 딕셔너리 값을 읽기 위해 `get()` 메서드를 사용합니다. 이렇게 하면 딕셔너리에 키가 누락되어도 `KeyError`가 발생하지 않습니다. 대신 `None` 값이 반환됩니다.
 
-Now pass the `SmartphoneDecoder` class to the `cls` parameter in `json.loads()` to convert a JSON string to a `Smartphone` object:
+이제 `json.loads()`의 `cls` 파라미터에 `SmartphoneDecoder` 클래스를 전달하여 JSON 문자열을 `Smartphone` 객체로 변환합니다:
 
 ```python
 import json
@@ -318,15 +318,15 @@ print(type(smartphone)) # <class '__main__.Smartphone'>
 name = smartphone.name # iPear 23 Plus
 ```
 
-Similarly, you can use `SmartphoneDecoder` with `json.load()`:
+마찬가지로 `json.load()`에서도 `SmartphoneDecoder`를 사용할 수 있습니다:
 
 ```
 smartphone = json.load(smartphone_json_file, cls=SmartphoneDecoder)
 ```
 
-## Python Data to JSON
+## Python 데이터를 JSON으로 변환하기
 
-You can also go the other way around and convert Python data structures and primitives to JSON. This is possible thanks to the [`json.dump()`](https://docs.python.org/3/library/json.html#json.dump) and [`json.dumps()`](https://docs.python.org/3/library/json.html#json.dumps) functions, which follows the [conversion table](https://docs.python.org/3/library/json.html#py-to-json-table) below:
+반대로 Python 데이터 구조 및 기본 타입을 JSON으로 변환할 수도 있습니다. 이는 [`json.dump()`](https://docs.python.org/3/library/json.html#json.dump) 및 [`json.dumps()`](https://docs.python.org/3/library/json.html#json.dumps) 함수 덕분에 가능하며, 아래 [conversion table](https://docs.python.org/3/library/json.html#py-to-json-table)을 따릅니다:
 
 | **Python Data** | **JSON Value** |
 | - | - | - |
@@ -340,7 +340,7 @@ You can also go the other way around and convert Python data structures and prim
 | `dict` | `object` |
 | `Null` | None  |
 
-`json.dump()` allows you to write a JSON string to a file, as in the following example:
+`json.dump()`는 다음 예시처럼 JSON 문자열을 파일에 쓸 수 있게 해줍니다:
 
 ```python
 import json
@@ -357,9 +357,9 @@ with open("user.json", "w") as json_file:
     json.dump(user_dict, json_file)
 ```
 
-This snippet will serialize the Python `user_dict` variable into the `user.json` file.
+이 스니펫은 Python `user_dict` 변수를 `user.json` 파일로 직렬화(serialize)합니다.
 
-Similarly, `json.dumps()` converts a Python variable to its equivalent JSON string:
+마찬가지로 `json.dumps()`는 Python 변수를 동등한 JSON 문자열로 변환합니다:
 
 ```python
 import json
@@ -375,26 +375,27 @@ user_json_string = json.dumps(user_dict)
 
 print(user_json_string)
 ```
-Run this snippet and you will get:
+
+이 스니펫을 실행하면 다음을 얻습니다:
 
 ```json
 {"name": "John", "surname": "Williams", "age": 48, "city": "New York"}
 ```
 
 > **Note**\
-> Follow the [official documentation](https://docs.python.org/3/library/json.html#json.JSONEncoder) to learn how to specify a custom encoder.
+> 사용자 정의 인코더를 지정하는 방법은 [official documentation](https://docs.python.org/3/library/json.html#json.JSONEncoder)을 참고하시기 바랍니다.
 
-### Limitations of the `json` Standard Module
+### `json` 표준 모듈의 한계
 
-JSON [data parsing](https://brightdata.com/blog/web-data/what-is-data-parsing) comes with challenges that cannot be overlooked.
+JSON [data parsing](https://brightdata.co.kr/blog/web-data/what-is-data-parsing)에는 간과할 수 없는 과제가 따릅니다.
 
-Two commons examples are:
+흔한 예시 두 가지는 다음과 같습니다:
 
-- The Python `json` module would fall short in case of invalid, broken, or non-standard JSON.
-- Parsing JSON data from untrusted sources is dangerous because a malicious JSON string can cause your parser to break or consume a large amount of resources.
+- Python `json` 모듈은 유효하지 않거나 손상되었거나 비표준 JSON의 경우 한계가 있습니다.
+- 신뢰할 수 없는 소스의 JSON 데이터를 파싱하는 것은 위험합니다. 악의적인 JSON 문자열이 파서를 중단시키거나 많은 리소스를 소비하게 만들 수 있기 때문입니다.
 
-These limitations can be worked around, but it's best to use a commercial tool that makes JSON parsing easier, such as [Web Scraper API](https://brightdata.com/products/web-scraper).
+이러한 한계는 우회할 수 있지만, [Web Scraper API](https://brightdata.co.kr/products/web-scraper)와 같이 JSON 파싱을 더 쉽게 만들어주는 상용 도구를 사용하는 것이 가장 좋습니다.
 
-## Conclusion
+## 결론
 
-While natively parsing JSON data through the `json` standard module in Python, you will need reliable proxy servers to bypass restrictions imposed by websites. Try a cutting-edge, fully-featured, commercial solution for data parsing, such as Bright Data's data and [proxy products](https://brightdata.com/proxy-types).
+Python에서 `json` 표준 모듈로 JSON 데이터를 기본 방식으로 파싱하는 경우, 웹사이트가 부과하는 제한을 우회하기 위해 신뢰할 수 있는 プロキシ 서버가 필요합니다. Bright Data의 데이터 및 [proxy products](https://brightdata.co.kr/proxy-types)와 같은 최첨단의 모든 기능을 갖춘 상용 데이터 파싱 솔루션을 사용해 보시기 바랍니다.
