@@ -398,4 +398,4 @@ JSON [data parsing](https://brightdata.co.kr/blog/web-data/what-is-data-parsing)
 
 ## 결론
 
-Python에서 `json` 표준 모듈로 JSON 데이터를 기본 방식으로 파싱하는 경우, 웹사이트가 부과하는 제한을 우회하기 위해 신뢰할 수 있는 プロキシ 서버가 필요합니다. Bright Data의 데이터 및 [proxy products](https://brightdata.co.kr/proxy-types)와 같은 최첨단의 모든 기능을 갖춘 상용 데이터 파싱 솔루션을 사용해 보시기 바랍니다.
+Python에서 `json` 표준 모듈로 JSON 데이터를 기본 방식으로 파싱하는 경우, 웹사이트가 부과하는 제한을 우회하기 위해 신뢰할 수 있는 프록시 서버가 필요합니다. Bright Data의 데이터 및 [proxy products](https://brightdata.co.kr/proxy-types)와 같은 최첨단의 모든 기능을 갖춘 상용 데이터 파싱 솔루션을 사용해 보시기 바랍니다.
